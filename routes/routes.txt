@@ -1,10 +1,36 @@
+Auth:
+  - POST authenticate {userName, password_hash} -> TODO
+
 Image:
   - POST uploadSingle {name, data} -> {id}
+    - authMW
+    - updateImageMW
+    - responseMW
+
   - PUT updateSingle {id, name} -> {} // not sure if necessary
+    - authMW
+    - updateImageMW
+    - responseMW
+
   - DELETE deleteMultiple {[id]} -> {}
+    - authMW
+    - deleteImagesMW
+    - responseMW
 
   - GET getImageById/:id -> {id, name, date, data, categories}
+    - authMW
+    - getImagesMW
+    - getImageByIdMW
+    - responseMW
+
   - GET getImagesByCategory/:categoryId -> {[{id, name, date, small_pic}]}
+    - authMW
+    - getImagesMW
+    - getImagesByCategoryMW
+    - responseMW
 
 Category:
   - GET categories -> {[{categoryId, categoryName, count}]}
+    - authMW
+    - getCategoriesMW
+    - responseMW
