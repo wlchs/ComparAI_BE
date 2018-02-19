@@ -1,0 +1,10 @@
+Image:
+  - POST uploadSingle {name, data} -> {id}
+  - PUT updateSingle {id, name} -> {} // not sure if necessary
+  - DELETE deleteMultiple {[id]} -> {}
+
+  - GET getImageById/:id -> {id, name, date, data, categories}
+  - GET getImagesByCategory/:categoryId -> {[{id, name, date, small_pic}]}
+
+Category:
+  - GET categories -> {[{categoryId, categoryName, count}]}
