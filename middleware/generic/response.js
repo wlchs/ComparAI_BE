@@ -4,14 +4,14 @@
 module.exports = objectRepository => {
 
   return (req, res) => {
-    console.log('Response');
+    console.log('Response', res.tpl);
 
     res.setHeader('Content-Type', 'application/json');
 
     if (res.tpl) {
       res.send(JSON.stringify(res.tpl.response || {}));
     } else {
-      res.send(JSON.stringify({}));  
+      res.send(JSON.stringify({}));
     }
   };
 
