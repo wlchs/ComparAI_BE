@@ -11,7 +11,6 @@ var Image = db.model('Image', {
     type: Date,
     default: Date.now
   },
-  comment: String,
   data: String
 });
 

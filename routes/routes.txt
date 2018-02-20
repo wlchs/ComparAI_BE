@@ -9,11 +9,14 @@ Image:
 
   - PUT updateSingle {id, name} -> {} // not sure if necessary
     - authMW
+    - getImagesMW
+    - getImageByIdMW
     - updateImageMW
     - responseMW
 
-  - DELETE deleteMultiple {[id]} -> {}
+  - DELETE deleteMultipleImages {[id]} -> {}
     - authMW
+    - getImagesMW
     - deleteImagesMW
     - responseMW
 
@@ -30,7 +33,7 @@ Image:
     - responseMW
 
 Category:
-  - GET categories -> {[{categoryId, categoryName, count}]}
+  - GET getCategories -> {[{categoryId, categoryName, count}]}
     - authMW
     - getCategoriesMW
     - responseMW
