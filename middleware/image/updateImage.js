@@ -13,14 +13,25 @@ module.exports = objectRepository => {
     let name = req.body.name;
     let data = req.body.data;
 
-    if (!name || !data) {
-      return next('No name or data provided!')
+    let image = undefined;
+    if (res.tpl.response.image) {
+      image = res.tpl.response.image;
+      res.tpl.response = {
+        ...res.tpl.response,
+        image: undefined
+      };
+    }
+    else {
+      if (!name || !data) {
+        return next('No name or data provided!')
+      }
+
+      image = new imageModel();
+      image._user = res.tpl.user_db_id;
     }
 
-    let image = new imageModel();
-    image.name = name;
-    image.data = data;
-    image._user = res.tpl.user_db_id;
+    image.name = name || image.name;
+    image.data = data || image.data;
 
     image.save( (err, result) => {
       if (err) {

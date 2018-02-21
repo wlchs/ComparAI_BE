@@ -10,18 +10,15 @@ module.exports = objectRepository => {
   return (req, res, next) => {
     console.log('Get one image');
 
-    let image = res.tpl.images.filter( image => {
-      return image.id == req.params.imageId;
+    imageModel.findOne({_user: res.tpl.user_db_id, _id: req.params.imageId}, (err, result) => {
+      if (err) {
+        return next(err);
+      }
+
+      res.tpl.response = {image: result};
+
+      return next();
     });
-
-    if(image.length > 0) {
-      res.tpl.response = {
-        ...res.tpl.response,
-        image: image
-      };
-    }
-
-    return next();
   };
 
 };

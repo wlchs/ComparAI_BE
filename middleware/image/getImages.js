@@ -16,16 +16,8 @@ module.exports = objectRepository => {
         return next(err);
       }
 
-      results.forEach( image => {
-        res.tpl.images.push({
-          id: image._id,
-          name: image.name,
-          date: image.date,
-          data: image.data,
-          cloudPath: image.cloudPath,
-          categories: image.categories
-        });
-      });
+      res.tpl.images = results;
+      
       return next();
     });
   };

@@ -22,7 +22,6 @@ module.exports = app => {
    */
   app.get('/getImageById/:imageId',
     authMW(objectRepository),
-    getImagesMW(objectRepository),
     getImageByIdMW(objectRepository),
     responseMW(objectRepository)
   );
@@ -49,9 +48,8 @@ module.exports = app => {
   /**
    * Update one image
    */
-  app.put('/updateSingle',
+  app.put('/updateSingle/:imageId',
     authMW(objectRepository),
-    getImagesMW(objectRepository),
     getImageByIdMW(objectRepository),
     updateImageMW(objectRepository),
     responseMW(objectRepository)
@@ -62,7 +60,6 @@ module.exports = app => {
    */
   app.delete('/deleteMultipleImages',
     authMW(objectRepository),
-    getImagesMW(objectRepository),
     deleteImagesMW(objectRepository),
     responseMW(objectRepository)
   );
