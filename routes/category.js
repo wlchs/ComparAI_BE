@@ -1,6 +1,7 @@
 let authMW = require('../middleware/generic/auth');
 let responseMW = require('../middleware/generic/response');
 
+let getImagesMW = require('../middleware/image/getImages');
 let getCategoriesMW = require('../middleware/category/getCategories');
 
 let imageModel = require('../models/image');
@@ -18,6 +19,7 @@ module.exports = app => {
    */
   app.get('/getCategories',
     authMW(objectRepository),
+    getImagesMW(objectRepository),
     getCategoriesMW(objectRepository),
     responseMW(objectRepository)
   );
