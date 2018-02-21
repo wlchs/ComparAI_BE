@@ -10,16 +10,17 @@ module.exports = objectRepository => {
   return (req, res, next) => {
     console.log('Get images for a category');
 
-    let image = res.tpl.images.filter( image => {
-      return image.categories.includes(req.params.categoryName);
-    });
+    let images = res.tpl.images.filter( image => {
+      return !req.params.categoryName || image.categories.includes(req.params.categoryName);
+    }).reduce( (acc, img) => {
+      acc.push(img._id);
+      return acc;
+    }, []);
 
-    if(image.length > 0) {
-      res.tpl.response = {
-        ...res.tpl.response,
-        images: image
-      };
-    }
+    res.tpl.response = {
+      ...res.tpl.response,
+      images: images
+    };
 
     return next();
   };

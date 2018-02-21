@@ -1,9 +1,12 @@
+var multer  = require('multer');
+var storage = multer.memoryStorage()
+var upload = multer({ storage: storage })
+
 let authMW = require('../middleware/generic/auth');
 let responseMW = require('../middleware/generic/response');
 
 let getImagesMW = require('../middleware/image/getImages');
 let getImageByIdMW = require('../middleware/image/getImageById');
-let getImageFromCloudMW = require('../middleware/image/getImageFromCloud');
 let getImagesByCategoryMW = require('../middleware/image/getImagesByCategory');
 let updateImageMW = require('../middleware/image/updateImage');
 let deleteImagesMW = require('../middleware/image/deleteMultipleImages');
@@ -22,9 +25,7 @@ module.exports = app => {
    * Get one image by ID
    */
   app.get('/getImageById/:imageId',
-    authMW(objectRepository),
     getImageByIdMW(objectRepository),
-    getImageFromCloudMW(objectRepository),
     responseMW(objectRepository)
   );
 
@@ -39,10 +40,21 @@ module.exports = app => {
   );
 
   /**
+   * Get all images
+   */
+  app.get('/getImagesByCategory',
+    authMW(objectRepository),
+    getImagesMW(objectRepository),
+    getImagesByCategoryMW(objectRepository),
+    responseMW(objectRepository)
+  );
+
+  /**
    * Upload one image
    */
   app.post('/uploadSingle',
     authMW(objectRepository),
+    upload.single('image'),
     updateImageMW(objectRepository),
     responseMW(objectRepository)
   );
