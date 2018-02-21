@@ -12,6 +12,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+require('./routes/user')(app);
 require('./routes/image')(app);
 require('./routes/category')(app);
 
