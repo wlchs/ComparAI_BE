@@ -14,10 +14,12 @@ module.exports = objectRepository => {
     if (authHeader && authHeader.split(' ')[0] == 'Bearer:') {
       let token = authHeader.split(' ')[1];
       var decoded = jwt.verify(token, ENVIRONMENTS.auth_secret);
-      console.log(JSON.stringify(decoded)); // bar
+
+      res.tpl.user_db_id = decoded._id;
+      return next();
     }
 
-    return next();
+    return next("Failed to authenticate user!");
   };
 
 };
