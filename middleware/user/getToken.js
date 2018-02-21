@@ -1,4 +1,6 @@
 let jwt = require('jsonwebtoken');
+let bcrypt = require('bcrypt');
+
 let requireOption = require('../common').requireOption;
 let ENVIRONMENTS = require('../../config/environments');
 
@@ -19,27 +21,29 @@ module.exports = objectRepository => {
       return next("No userId or password!");
     }
 
-    userModel.findOne({name: userId}, function (err, result) {
+    userModel.findOne({name: userId}, (err, result) => {
       if (err) {
         return next(err);
       }
 
-      if (result.password_hash === password_hash) {
-        var token = jwt.sign(
-          {
-            userId: userId,
-            _id: result._id
-          }, ENVIRONMENTS.auth_secret);
+      bcrypt.compare(password_hash, result.password_hash).then(valid => {
+        if (valid) {
+          var token = jwt.sign(
+            {
+              userId: userId,
+              _id: result._id
+            }, ENVIRONMENTS.auth_secret);
 
-        res.tpl.response = {
-          ...res.tpl.response,
-          token: token
-        };
+          res.tpl.response = {
+            ...res.tpl.response,
+            token: token
+          };
 
-        return next();
-      }
+          return next();
+        }
 
-      return next("Wrong userId or password!");
+        return next("Wrong userId or password!");
+      });
     });
   };
 
