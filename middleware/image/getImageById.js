@@ -9,6 +9,18 @@ module.exports = objectRepository => {
 
   return (req, res, next) => {
     console.log('Get one image');
+
+    let image = res.tpl.images.filter( image => {
+      return image.id == req.params.imageId;
+    });
+
+    if(image.length > 0) {
+      res.tpl.response = {
+        ...res.tpl.response,
+        image: image
+      };
+    }
+
     return next();
   };
 
