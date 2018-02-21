@@ -12,7 +12,8 @@ var Image = db.model('Image', {
     default: Date.now
   },
   data: String,
-  categories: Array
+  categories: Array,
+  cloudPath: String
 });
 
 module.exports = Image;
