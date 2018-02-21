@@ -30,7 +30,7 @@ module.exports = app => {
   /**
    * Get all images for a category
    */
-  app.get('/getImagesByCategory/:categoryId',
+  app.get('/getImagesByCategory/:categoryName',
     authMW(objectRepository),
     getImagesMW(objectRepository),
     getImagesByCategoryMW(objectRepository),
