@@ -10,17 +10,15 @@ module.exports = objectRepository => {
   return (req, res, next) => {
     console.log('Get categories');
 
-    let categories = new Set();
+    let categories = {};
 
     res.tpl.images.forEach( image => image.categories.forEach(category => {
-      categories.add(category);
+      categories[category] = categories[category] + 1 || 1;
     }));
-
-    let categoryArray = [...categories];
 
     res.tpl.response = {
       ...res.tpl.response,
-      categories: categoryArray
+      categories: categories
     };
 
     return next();
