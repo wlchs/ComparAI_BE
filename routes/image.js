@@ -3,6 +3,7 @@ let responseMW = require('../middleware/generic/response');
 
 let getImagesMW = require('../middleware/image/getImages');
 let getImageByIdMW = require('../middleware/image/getImageById');
+let getImageFromCloudMW = require('../middleware/image/getImageFromCloud');
 let getImagesByCategoryMW = require('../middleware/image/getImagesByCategory');
 let updateImageMW = require('../middleware/image/updateImage');
 let deleteImagesMW = require('../middleware/image/deleteMultipleImages');
@@ -23,6 +24,7 @@ module.exports = app => {
   app.get('/getImageById/:imageId',
     authMW(objectRepository),
     getImageByIdMW(objectRepository),
+    getImageFromCloudMW(objectRepository),
     responseMW(objectRepository)
   );
 

@@ -30,6 +30,12 @@ module.exports = objectRepository => {
       image._user = res.tpl.user_db_id;
     }
 
+    if (data) {
+      // TODO: upload to cloud
+      // TODO: handle classification
+      // TODO: resize to thumbnail size
+    }
+
     image.name = name || image.name;
     image.data = data || image.data;
 

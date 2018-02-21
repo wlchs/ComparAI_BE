@@ -17,7 +17,7 @@ module.exports = objectRepository => {
     if(image.length > 0) {
       res.tpl.response = {
         ...res.tpl.response,
-        image: image
+        images: image
       };
     }
 
