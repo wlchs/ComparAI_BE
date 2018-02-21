@@ -14,7 +14,7 @@ module.exports = objectRepository => {
     let data = req.body.data;
 
     let image = undefined;
-    if (res.tpl.response.image) {
+    if (res.tpl.response && res.tpl.response.image) {
       image = res.tpl.response.image;
       res.tpl.response = {
         ...res.tpl.response,
