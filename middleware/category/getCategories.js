@@ -10,9 +10,15 @@ module.exports = objectRepository => {
   return (req, res, next) => {
     let categories = {};
 
-    res.tpl.images.forEach( image => image.categories.forEach(category => {
-      categories[category] = categories[category] + 1 || 1;
-    }));
+    res.tpl.images.forEach(
+      image => image.categories.forEach(
+        categoryArray => categoryArray.categories.forEach(
+          category => {
+            categories[category] = categories[category] + 1 || 1;
+          }
+        )
+      )
+    );
 
     res.tpl.response = {
       ...res.tpl.response,

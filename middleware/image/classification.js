@@ -14,8 +14,11 @@ module.exports = objectRepository => {
     console.log('Classify image');
     const path = `${ENVIRONMENTS.current_env}/getImageById/${res.tpl.response.id}`;
 
+    let cat = [];
+
     googleService(path)
-      .then(res => updateCategories(res))
+      .then(res => cat.push({name: 'google', categories: res}))
+      .then(() => updateCategories(cat))
       .catch(e => {
         return next(e);
       });
@@ -35,7 +38,7 @@ module.exports = objectRepository => {
         image.save( (err, result) => {
           if (err) {
             return next(err);
-          }
+          };
 
           return next();
         });

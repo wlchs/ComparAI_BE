@@ -9,9 +9,13 @@ module.exports = objectRepository => {
 
   return (req, res, next) => {
     imageModel.deleteMany({_user: res.tpl.user_db_id, _id: {$in: req.body.id}},
-      err => {
+      (err, result) => {
         if (err) {
           return next("Something went wrong!");
+        }
+
+        res.tpl.response = {
+          message: `${result.n}/${result.ok} image(s) deleted!`
         }
 
         return next();

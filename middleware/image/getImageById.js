@@ -15,8 +15,11 @@ module.exports = objectRepository => {
         return next(err);
       }
 
-      res.tpl.response = {image: result};
+      if (!result) {
+        return next('Image not found!')
+      }
 
+      res.tpl.response = {image: result};
       return next();
     });
   };
