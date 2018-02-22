@@ -5,14 +5,14 @@ const ENVIRONMENTS = require('../../../config/environments');
  * Google cloud service
  */
 
-module.exports = path => new Promise( (resolve, reject) => {
+module.exports = (path, imageFile) => new Promise( (resolve, reject) => {
+  const encoded = new Buffer(imageFile).toString('base64');
+
   const body = JSON.stringify({
     "requests":[
       {
         "image":{
-          "source":{
-            "imageUri": path
-          }
+          "content": encoded
         },
         "features":[
           {

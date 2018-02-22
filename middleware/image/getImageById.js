@@ -10,7 +10,7 @@ module.exports = objectRepository => {
   return (req, res, next) => {
     res.tpl = {...res.tpl};
 
-    imageModel.findOne({_id: req.params.imageId}, (err, result) => {
+    imageModel.findOne({_id: req.params.imageId, _user: res.tpl.user_db_id}, (err, result) => {
       if (err) {
         return next(err);
       }

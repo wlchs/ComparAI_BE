@@ -27,6 +27,7 @@ module.exports = app => {
    * Get one image by ID
    */
   app.get('/getImageById/:imageId',
+    authMW(objectRepository),
     getImageByIdMW(objectRepository),
     responseMW(objectRepository)
   );

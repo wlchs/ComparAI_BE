@@ -17,7 +17,7 @@ module.exports = objectRepository => {
 
     let cat = [];
 
-    googleService(path)
+    googleService(path, res.tpl.imageBase64)
       .then(res => cat.push({name: 'google', categories: res})).then(() =>
     aws(path, res.tpl.imageBase64))
       .then(res => cat.push({name: 'aws', categories: res}))

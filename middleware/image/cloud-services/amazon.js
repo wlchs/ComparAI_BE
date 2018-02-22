@@ -22,7 +22,7 @@ module.exports = (path, imageBase64) => new Promise( (resolve, reject) => {
     }
     else {
       const categories = data.Labels.reduce((array, label) => {
-        array.push(label.Name);
+        array.push(label.Name.toLowerCase());
         return array;
       },[]);
 
