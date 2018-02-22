@@ -1,4 +1,5 @@
 const googleService = require('./cloud-services/google');
+const aws = require('./cloud-services/amazon');
 let ENVIRONMENTS = require('../../config/environments');
 
 var requireOption = require('../common').requireOption;
@@ -17,7 +18,9 @@ module.exports = objectRepository => {
     let cat = [];
 
     googleService(path)
-      .then(res => cat.push({name: 'google', categories: res}))
+      .then(res => cat.push({name: 'google', categories: res})).then(() =>
+    aws(path, res.tpl.imageBase64))
+      .then(res => cat.push({name: 'aws', categories: res}))
       .then(() => updateCategories(cat))
       .catch(e => {
         return next(e);

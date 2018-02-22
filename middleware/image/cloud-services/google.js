@@ -41,6 +41,7 @@ module.exports = path => new Promise( (resolve, reject) => {
 
   const extractCategories = body => {
     const parsedBody = JSON.parse(body);
+    console.log(body);
 
     if (parsedBody.responses[0].error) {
       return reject('Network error!');

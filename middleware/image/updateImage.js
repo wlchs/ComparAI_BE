@@ -40,6 +40,8 @@ module.exports = objectRepository => {
         return next(err);
       }
 
+      res.tpl.imageBase64 = result.data;
+
       res.tpl.response = {
         ...res.tpl.response,
         id: result._id
