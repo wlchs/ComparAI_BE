@@ -26,6 +26,11 @@ module.exports = objectRepository => {
         return next(err);
       }
 
+      if (!result) {
+        res.status(401);
+        return res.send('Bad username or password!');
+      }
+
       bcrypt.compare(password_hash, result.password_hash).then(valid => {
         if (valid) {
           var token = jwt.sign(
@@ -42,7 +47,8 @@ module.exports = objectRepository => {
           return next();
         }
 
-        return next("Wrong userId or password!");
+        res.status(401);
+        return res.send('Bad username or password!');
       });
     });
   };

@@ -16,6 +16,6 @@ require('./routes/user')(app);
 require('./routes/image')(app);
 require('./routes/category')(app);
 
-var server = app.listen(3000, function () {
-  console.log("Server listening on port 3000!");
+var server = app.listen(3300, function () {
+  console.log("Server listening on port 3300!");
 });
