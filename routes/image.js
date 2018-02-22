@@ -9,6 +9,7 @@ let getImagesMW = require('../middleware/image/getImages');
 let getImageByIdMW = require('../middleware/image/getImageById');
 let getImagesByCategoryMW = require('../middleware/image/getImagesByCategory');
 let updateImageMW = require('../middleware/image/updateImage');
+let imageClassificationMW = require('../middleware/image/classification');
 let deleteImagesMW = require('../middleware/image/deleteMultipleImages');
 
 let imageModel = require('../models/image');
@@ -56,6 +57,7 @@ module.exports = app => {
     authMW(objectRepository),
     upload.single('image'),
     updateImageMW(objectRepository),
+    imageClassificationMW(objectRepository),
     responseMW(objectRepository)
   );
 

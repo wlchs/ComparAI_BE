@@ -1,3 +1,5 @@
+const classification = require('./classification');
+
 var requireOption = require('../common').requireOption;
 
 /**
@@ -29,10 +31,6 @@ module.exports = objectRepository => {
 
       image = new imageModel();
       image._user = res.tpl.user_db_id;
-    }
-
-    if (data) {
-      // TODO: handle classification
     }
 
     image.name = name || image.name;
