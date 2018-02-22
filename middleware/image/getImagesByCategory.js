@@ -8,16 +8,19 @@ module.exports = objectRepository => {
   var imageModel = requireOption(objectRepository, 'imageModel');
 
   return (req, res, next) => {
-    let images = res.tpl.images.filter( image => {
-      return !req.params.categoryName || image.categories.includes(req.params.categoryName);
-    }).reduce( (acc, img) => {
-      acc.push(img._id);
-      return acc;
-    }, []);
+    let ids = [];
+
+    res.tpl.images.forEach(image => {
+      image.categories.forEach(classificationService => {
+        if (!req.params.categoryName || classificationService.categories.includes(req.params.categoryName)) {
+          ids.push(image._id);
+        }
+      })
+    });
 
     res.tpl.response = {
       ...res.tpl.response,
-      images: images
+      images: ids
     };
 
     return next();
