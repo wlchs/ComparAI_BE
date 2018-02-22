@@ -1,5 +1,5 @@
-const https = require('https');
 const ENVIRONMENTS = require('../../../config/environments');
+const vision = require('@google-cloud/vision');
 
 /**
  * Google cloud service
@@ -8,58 +8,34 @@ const ENVIRONMENTS = require('../../../config/environments');
 module.exports = (path, imageFile) => new Promise( (resolve, reject) => {
   const encoded = new Buffer(imageFile).toString('base64');
 
-  const body = JSON.stringify({
-    "requests":[
+  const request = {
+    image: {content: encoded},
+    features: [
       {
-        "image":{
-          "content": encoded
-        },
-        "features":[
-          {
-            "type":"LABEL_DETECTION",
-            "maxResults":3
-          }
-        ]
+        type: "LABEL_DETECTION",
+        maxResults: 3
       }
-    ]
-  });
-
-  const options = {
-    hostname: 'vision.googleapis.com',
-    path: `/v1/images:annotate?key=${ENVIRONMENTS.GOOGLE_API_KEY}`,
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Content-Length': Buffer.byteLength(body)
-    }
+    ],
   };
 
-  const request = https.request(options, (response) => {
-    response.setEncoding('utf8');
-    response.on('data', chunk => extractCategories(chunk));
+  const client = new vision.v1.ImageAnnotatorClient({
+    keyFilename: './config/ComparAI-d94f014e8600.json'
   });
 
-  const extractCategories = body => {
-    const parsedBody = JSON.parse(body);
-
-    if (parsedBody.responses[0].error) {
-      return reject('Network error!');
+  client.annotateImage(request)
+    .then(response => {
+      const categories = prepareCategories(response[0].labelAnnotations);
+      return resolve(categories);
+    })
+    .catch(err => {
+      reject(err);
     }
+  );
 
-    const categories = parsedBody.responses[0].labelAnnotations.reduce( (array, label) => {
-      array.push(label.description);
+  const prepareCategories = rawList => {
+    return rawList.reduce((array, category) => {
+      array.push(category.description);
       return array;
     },[]);
-
-    return resolve(categories);
   };
-
-  request.on('error', e => {
-    console.error(`problem with request: ${e.message}`);
-    return reject(e);
-  });
-
-  // write data to request body
-  request.write(body);
-  request.end();
 });

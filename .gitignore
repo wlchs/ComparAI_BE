@@ -16,6 +16,7 @@
 .env.test.local
 .env.production.local
 /config/environments.js
+/config/ComparAI-d94f014e8600.json
 /config/awsconfig.json
 
 npm-debug.log*
