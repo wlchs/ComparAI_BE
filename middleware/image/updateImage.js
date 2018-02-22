@@ -10,8 +10,6 @@ module.exports = objectRepository => {
   let imageModel = requireOption(objectRepository, 'imageModel');
 
   return (req, res, next) => {
-    console.log('Update image', req.body, req.file);
-
     const name = req.body.name;
     const data = req.file.buffer;
     const contentType = req.file.mimetype;

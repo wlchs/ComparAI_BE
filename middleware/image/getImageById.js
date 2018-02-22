@@ -8,7 +8,6 @@ module.exports = objectRepository => {
   var imageModel = requireOption(objectRepository, 'imageModel');
 
   return (req, res, next) => {
-    console.log('Get one image');
     res.tpl = {...res.tpl};
 
     imageModel.findOne({_id: req.params.imageId}, (err, result) => {

@@ -8,8 +8,6 @@ module.exports = objectRepository => {
   var imageModel = requireOption(objectRepository, 'imageModel');
 
   return (req, res, next) => {
-    console.log('Get categories');
-
     let categories = {};
 
     res.tpl.images.forEach( image => image.categories.forEach(category => {

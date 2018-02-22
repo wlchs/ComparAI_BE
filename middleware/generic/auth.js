@@ -7,7 +7,6 @@ let ENVIRONMENTS = require('../../config/environments');
 module.exports = objectRepository => {
 
   return (req, res, next) => {
-    console.log('Authorization');
     res.tpl = {};
 
     let authHeader = req.get('Authorization');

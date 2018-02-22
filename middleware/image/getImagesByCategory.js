@@ -8,8 +8,6 @@ module.exports = objectRepository => {
   var imageModel = requireOption(objectRepository, 'imageModel');
 
   return (req, res, next) => {
-    console.log('Get images for a category');
-
     let images = res.tpl.images.filter( image => {
       return !req.params.categoryName || image.categories.includes(req.params.categoryName);
     }).reduce( (acc, img) => {
