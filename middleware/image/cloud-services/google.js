@@ -1,5 +1,8 @@
 const ENVIRONMENTS = require('../../../config/environments');
 const vision = require('@google-cloud/vision');
+const client = new vision.v1.ImageAnnotatorClient({
+  keyFilename: './config/ComparAI-d94f014e8600.json'
+});
 
 /**
  * Google cloud service
@@ -18,17 +21,14 @@ module.exports = (path, imageFile) => new Promise( (resolve, reject) => {
     ],
   };
 
-  const client = new vision.v1.ImageAnnotatorClient({
-    keyFilename: './config/ComparAI-d94f014e8600.json'
-  });
-
   client.annotateImage(request)
     .then(response => {
       const categories = prepareCategories(response[0].labelAnnotations);
       return resolve(categories);
     })
     .catch(err => {
-      reject(err);
+      console.log(err);
+      resolve([]);
     }
   );
 

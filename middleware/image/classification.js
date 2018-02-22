@@ -1,5 +1,6 @@
 const googleService = require('./cloud-services/google');
 const aws = require('./cloud-services/amazon');
+const clarifai_service = require('./cloud-services/clarifai');
 let ENVIRONMENTS = require('../../config/environments');
 
 var requireOption = require('../common').requireOption;
@@ -12,7 +13,6 @@ module.exports = objectRepository => {
   var imageModel = requireOption(objectRepository, 'imageModel');
 
   return (req, res, next) => {
-    console.log('Classify image');
     const path = `${ENVIRONMENTS.current_env}/getImageById/${res.tpl.response.id}`;
 
     let cat = [];
@@ -20,7 +20,9 @@ module.exports = objectRepository => {
     googleService(path, res.tpl.imageBase64)
       .then(res => cat.push({name: 'google', categories: res})).then(() =>
     aws(path, res.tpl.imageBase64))
-      .then(res => cat.push({name: 'aws', categories: res}))
+      .then(res => cat.push({name: 'aws', categories: res})).then(() =>
+    clarifai_service(path, res.tpl.imageBase64))
+      .then(res => cat.push({name: 'clarifai', categories: res}))
       .then(() => updateCategories(cat))
       .catch(e => {
         return next(e);

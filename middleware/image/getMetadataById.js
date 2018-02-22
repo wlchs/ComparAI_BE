@@ -16,6 +16,10 @@ module.exports = objectRepository => {
       return image._id == req.params.imageId;
     })[0];
 
+    if (!response) {
+      return next('Image not found!')
+    }
+
     res.tpl.response = {
       id: response._id,
       name: response.name,

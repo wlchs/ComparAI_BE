@@ -13,7 +13,9 @@ module.exports = objectRepository => {
     res.tpl.images.forEach(image => {
       image.categories.forEach(classificationService => {
         if (!req.params.categoryName || classificationService.categories.includes(req.params.categoryName)) {
-          ids.push(image._id);
+          if (!ids.includes(image._id)) {
+            ids.push(image._id);
+          }
         }
       })
     });
