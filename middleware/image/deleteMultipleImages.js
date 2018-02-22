@@ -15,7 +15,7 @@ module.exports = objectRepository => {
         }
 
         res.tpl.response = {
-          message: `${result.n}/${result.ok} image(s) deleted!`
+          message: `${result.n} image(s) deleted!`
         }
 
         return next();
