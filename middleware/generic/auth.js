@@ -22,7 +22,8 @@ module.exports = objectRepository => {
       catch(ignore) {}
     }
 
-    return next("Failed to authenticate user!");
+    res.status(401);
+    return res.send('Failed to authenticate user!');
   };
 
 };
