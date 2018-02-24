@@ -21,6 +21,7 @@ module.exports = objectRepository => {
               name: image.name,
               date: image.date,
               data: image.data,
+              thumbnail: image.thumbnail,
               contentType: image.contentType,
               categories: image.categories
             });

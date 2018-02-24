@@ -11,6 +11,7 @@ var Image = db.model('Image', {
     type: Date,
     default: Date.now
   },
+  thumbnail: Buffer,
   data: Buffer,
   contentType: String,
   categories: Array,
