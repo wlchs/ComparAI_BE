@@ -15,19 +15,6 @@ module.exports = objectRepository => {
   return (req, res, next) => {
     const path = `${ENVIRONMENTS.current_env}/getImageById/${res.tpl.response.id}`;
 
-    let cat = [];
-
-    googleService(path, res.tpl.imageBase64)
-      .then(res => cat.push({name: 'google', categories: res})).then(() =>
-    aws(path, res.tpl.imageBase64))
-      .then(res => cat.push({name: 'aws', categories: res})).then(() =>
-    clarifai_service(path, res.tpl.imageBase64))
-      .then(res => cat.push({name: 'clarifai', categories: res}))
-      .then(() => updateCategories(cat))
-      .catch(e => {
-        return next(e);
-      });
-
     const updateCategories = categories => {
 
       imageModel.findOne({_id: res.tpl.response.id}, (err, image) => {
@@ -49,6 +36,23 @@ module.exports = objectRepository => {
         });
       });
     };
+
+    let cat = [];
+
+    Promise.all([
+      googleService(path, res.tpl.imageBase64),
+      aws(path, res.tpl.imageBase64),
+      clarifai_service(path, res.tpl.imageBase64)
+    ])
+      .then(response => {
+        cat.push({name: 'google', categories: response[0]});
+        cat.push({name: 'aws', categories: response[1]});
+        cat.push({name: 'clarifai', categories: response[2]})
+      })
+      .then(() => updateCategories(cat))
+      .catch(e => {
+        return next(e);
+      });
   };
 
 };
