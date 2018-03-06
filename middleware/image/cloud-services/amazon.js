@@ -28,7 +28,7 @@ module.exports = (path, imageBase64) => new Promise( (resolve, reject) => {
 
   const prepareCategories = rawList => {
     return rawList.reduce((array, label) => {
-      array.push(label.Name.toLowerCase());
+      array.push({name: label.Name.toLowerCase(), score: label.Confidence / 100});
       return array;
     },[]);
   };

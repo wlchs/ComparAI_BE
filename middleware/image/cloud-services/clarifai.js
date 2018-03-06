@@ -24,7 +24,7 @@ module.exports = (path, imageFile) => new Promise( (resolve, reject) => {
 
   const prepareCategories = rawList => {
     return rawList.reduce((array, category) => {
-      array.push(category.name);
+      array.push({name: category.name, score: category.value});
       return array;
     },[]);
   };
