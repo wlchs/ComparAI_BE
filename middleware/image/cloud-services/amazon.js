@@ -12,7 +12,7 @@ module.exports = (path, imageBase64) => new Promise( (resolve, reject) => {
     Image: { /* required */
       Bytes: new Buffer(imageBase64),
     },
-    MaxLabels: 3,
+    MaxLabels: 5,
   };
 
   rekognition.detectLabels(params, (err, data) => {

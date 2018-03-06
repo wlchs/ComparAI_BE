@@ -16,7 +16,7 @@ module.exports = (path, imageFile) => new Promise( (resolve, reject) => {
     features: [
       {
         type: "LABEL_DETECTION",
-        maxResults: 3
+        maxResults: 5
       }
     ],
   };

@@ -13,7 +13,7 @@ module.exports = (path, imageFile) => new Promise( (resolve, reject) => {
 
   clarifai_app.models.predict(Clarifai.GENERAL_MODEL, encoded).then(
     function(response) {
-      const categories = prepareCategories(response.outputs[0].data.concepts.slice(0, 3));
+      const categories = prepareCategories(response.outputs[0].data.concepts.slice(0, 5));
       resolve(categories);
     },
     function(err) {
