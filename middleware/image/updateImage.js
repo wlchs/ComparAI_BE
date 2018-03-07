@@ -10,61 +10,68 @@ module.exports = objectRepository => {
 
   let imageModel = requireOption(objectRepository, 'imageModel');
 
-  return (req, res, next) => {
-    const name = req.body.name;
-    const data = req.file.buffer;
-    const contentType = req.file.mimetype;
+  const getThumbnail = buffer => new Promise((resolve, reject) => {
+    Jimp.read(buffer)
+      .then(buffer => buffer
+        .resize(250, Jimp.AUTO, Jimp.RESIZE_BEZIER)
+        .getBuffer(Jimp.AUTO, (err, resizedBuffer) => resolve(resizedBuffer)))
+      .catch(err => reject(err));
+  });
 
-    let image = undefined;
-    if (res.tpl.response && res.tpl.response.image) {
-      image = res.tpl.response.image;
-      res.tpl.response = {
-        ...res.tpl.response,
-        image: undefined
-      };
-    }
-    else {
-      if (!name || !data) {
-        return next('No name or data provided!')
+  return (req, res, next) => {
+    const processImage = (file, user) => new Promise((resolve, reject) => {
+      const name = file.originalname;
+      const data = file.buffer;
+      const contentType = file.mimetype;
+
+      if (!name || !data || !contentType) {
+        return reject('Malformed data!');
       }
 
-      image = new imageModel();
-      image._user = res.tpl.user_db_id;
-    }
+      let image = new imageModel();
+      image._user = user;
+      image.name = name;
+      image.data = data;
+      image.contentType = contentType;
 
-    image.name = name || image.name;
-    image.data = data || image.data;
-    image.contentType = contentType || image.contentType;
+      getThumbnail(data)
+        .then(thumbnail => {
+          image.thumbnail = thumbnail;
+          image.save( (err, result) => {
+            if (err) {
+              return reject(err);
+            }
 
-    const getThumbnail = buffer => new Promise((resolve, reject) => {
-      Jimp.read(buffer)
-        .then(buffer => buffer
-          .resize(250, Jimp.AUTO, Jimp.RESIZE_BEZIER)
-          .getBuffer(Jimp.AUTO, (err, resizedBuffer) => resolve(resizedBuffer)))
-        .catch(err => reject(err));
+            if (res.tpl.response && res.tpl.response.id) {
+              res.tpl.response = {
+                id: [...res.tpl.response.id, result._id]
+              };
+            } else {
+              res.tpl.response = {
+                id: [result._id]
+              };
+            }
+
+            return resolve({id: result._id, data: result.data});
+          });
+        })
+        .catch(err => {
+          return reject(err);
+        })
+      });
+    let promises = [];
+
+    req.files.forEach(file => {
+      promises.push(processImage(file, res.tpl.user_db_id));
     });
 
-    getThumbnail(image.data)
-      .then(thumbnail => {
-        image.thumbnail = thumbnail;
-        image.save( (err, result) => {
-          if (err) {
-            return next(err);
-          }
-
-          res.tpl.imageBase64 = result.data;
-
-          res.tpl.response = {
-            ...res.tpl.response,
-            id: result._id
-          };
-
-          return next();
-        });
-      })
-      .catch(err => {
-        return next(err);
-      })
+    Promise.all(promises).then(results => {
+      res.tpl.imageBase64 = results;
+      return next();
+    })
+    .catch(err => {
+      return next(err);
+    });
   };
 
 };

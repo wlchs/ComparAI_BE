@@ -67,7 +67,7 @@ module.exports = app => {
    */
   app.post('/uploadSingle',
     authMW(objectRepository),
-    upload.single('image'),
+    upload.array('image'),
     updateImageMW(objectRepository),
     imageClassificationMW(objectRepository),
     responseMW(objectRepository)
