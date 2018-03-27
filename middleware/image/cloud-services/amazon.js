@@ -7,7 +7,7 @@ const rekognition = new AWS.Rekognition();
  * AWS
  */
 
-module.exports = (path, imageBase64) => new Promise( (resolve, reject) => {
+module.exports = imageBase64 => new Promise( (resolve, reject) => {
   var params = {
     Image: { /* required */
       Bytes: new Buffer(imageBase64),

@@ -13,8 +13,6 @@ module.exports = objectRepository => {
   var imageModel = requireOption(objectRepository, 'imageModel');
 
   return (req, res, next) => {
-    const path = `${ENVIRONMENTS.current_env}/getImageById/${res.tpl.response.id}`;
-
     const updateCategories = classifiedImage => new Promise((resolve, reject) => {
       imageModel.findOne({_id: classifiedImage.id}, (err, image) => {
         if (err) {
@@ -39,9 +37,9 @@ module.exports = objectRepository => {
     const classify = image => new Promise((resolve, reject) => {
       let categories = [];
       Promise.all([
-        googleService(path, image.data),
-        aws(path, image.data),
-        clarifai_service(path, image.data)
+        googleService(image.data),
+        aws(image.data),
+        clarifai_service(image.data)
       ])
         .then(response => {
           categories.push({name: 'google', categories: response[0]});

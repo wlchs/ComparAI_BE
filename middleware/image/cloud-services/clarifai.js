@@ -8,7 +8,7 @@ const clarifai_app = new Clarifai.App({
  * Clarifai service
  */
 
-module.exports = (path, imageFile) => new Promise( (resolve, reject) => {
+module.exports = imageFile => new Promise( (resolve, reject) => {
   const encoded = new Buffer(imageFile).toString('base64');
 
   clarifai_app.models.predict(Clarifai.GENERAL_MODEL, encoded).then(

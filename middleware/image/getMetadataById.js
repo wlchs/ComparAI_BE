@@ -24,7 +24,7 @@ module.exports = objectRepository => {
       id: response._id,
       name: response.name,
       date: response.date,
-      url: `${ENVIRONMENTS.current_env}/getImageById/${response._id}`,
+      url: `/getImageById/${response._id}`,
       categories: response.categories
     }
 

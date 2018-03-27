@@ -8,7 +8,7 @@ const client = new vision.v1.ImageAnnotatorClient({
  * Google cloud service
  */
 
-module.exports = (path, imageFile) => new Promise( (resolve, reject) => {
+module.exports = imageFile => new Promise( (resolve, reject) => {
   const encoded = new Buffer(imageFile).toString('base64');
 
   const request = {
