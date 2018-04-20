@@ -1,3 +1,4 @@
+let registerMW = require('../middleware/user/register');
 let getTokenMW = require('../middleware/user/getToken');
 let responseMW = require('../middleware/generic/response');
 
@@ -8,6 +9,14 @@ module.exports = app => {
   let objectRepository = {
     userModel: userModel
   };
+
+  /**
+   * Register new user
+   */
+  app.post('/register',
+    registerMW(objectRepository),
+    responseMW(objectRepository)
+  );
 
   /**
    * Issue token
