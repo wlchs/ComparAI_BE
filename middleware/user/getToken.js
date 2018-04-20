@@ -18,7 +18,7 @@ module.exports = objectRepository => {
     let password_hash = req.body.password_hash;
 
     if (!userId || ! password_hash) {
-      return next("No userId or password!");
+      return next('No userId or password!');
     }
 
     userModel.findOne({name: userId}, (err, result) => {
@@ -37,11 +37,14 @@ module.exports = objectRepository => {
             {
               userId: userId,
               _id: result._id
-            }, ENVIRONMENTS.auth_secret);
+            },
+            ENVIRONMENTS.auth_secret,
+            {expiresIn: '6h'}
+          );
 
           res.tpl.response = {
             ...res.tpl.response,
-            token: token
+            token
           };
 
           return next();

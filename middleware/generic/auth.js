@@ -14,7 +14,11 @@ module.exports = objectRepository => {
       let token = authHeader.split(' ')[1];
 
       try {
-        var decoded = jwt.verify(token, ENVIRONMENTS.auth_secret);
+        var decoded = jwt.verify(
+          token,
+          ENVIRONMENTS.auth_secret,
+          {maxAge: '6s'}
+        );
 
         res.tpl.user_db_id = decoded._id;
         return next();
