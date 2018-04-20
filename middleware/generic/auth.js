@@ -17,7 +17,7 @@ module.exports = objectRepository => {
         var decoded = jwt.verify(
           token,
           ENVIRONMENTS.auth_secret,
-          {maxAge: '6s'}
+          {maxAge: '6h'}
         );
 
         res.tpl.user_db_id = decoded._id;
