@@ -5,6 +5,9 @@ var bodyParser = require('body-parser');
 var compression = require('compression');
 var helmet = require('helmet');
 
+app.use(helmet());
+app.use(compression()); //Compress all routes
+
 /**
  * Parse parameters in POST
  */
@@ -19,8 +22,6 @@ require('./routes/user')(app);
 require('./routes/image')(app);
 require('./routes/category')(app);
 
-app.use(helmet());
-app.use(compression()); //Compress all routes
 app.use(express.static('public'))
 
 app.get('/*', function(req, res) {
