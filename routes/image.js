@@ -12,6 +12,7 @@ let getImagesByCategoryMW = require('../middleware/image/getImagesByCategory');
 let updateImageMW = require('../middleware/image/updateImage');
 let imageClassificationMW = require('../middleware/image/classification');
 let deleteImagesMW = require('../middleware/image/deleteMultipleImages');
+let evaluateMW = require('../middleware/image/evaluateConnections');
 
 let imageModel = require('../models/image');
 let userModel = require('../models/user');
@@ -79,6 +80,16 @@ module.exports = app => {
   app.delete('/deleteMultipleImages',
     authMW(objectRepository),
     deleteImagesMW(objectRepository),
+    responseMW(objectRepository)
+  );
+
+  /**
+   * Evaluate stored image -> category connections
+   */
+  app.get('/evaluate',
+    authMW(objectRepository),
+    getImagesMW(objectRepository),
+    evaluateMW(objectRepository),
     responseMW(objectRepository)
   );
 };
