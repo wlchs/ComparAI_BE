@@ -10,7 +10,7 @@ module.exports = objectRepository => {
     res.tpl = {};
 
     let authHeader = req.get('Authorization');
-    if (authHeader && authHeader.split(' ')[0] == 'Bearer:') {
+    if (authHeader && authHeader.split(' ')[0] == 'Bearer ') {
       let token = authHeader.split(' ')[1];
 
       try {
