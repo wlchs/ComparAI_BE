@@ -20,7 +20,6 @@ app.use(bodyParser.urlencoded({
 
 require('./routes/user')(app);
 require('./routes/image')(app);
-require('./routes/category')(app);
 
 app.use(express.static('public'))
 

@@ -6,7 +6,6 @@ let authMW = require('../middleware/generic/auth');
 let responseMW = require('../middleware/generic/response');
 
 let getImagesMW = require('../middleware/image/getImages');
-let getMetadataByIdMW = require('../middleware/image/getMetadataById');
 let getImageByIdMW = require('../middleware/image/getImageById');
 let getImagesByCategoryMW = require('../middleware/image/getImagesByCategory');
 let updateImageMW = require('../middleware/image/updateImage');
@@ -30,16 +29,6 @@ module.exports = app => {
   app.get('/getImageById/:imageId',
     authMW(objectRepository),
     getImageByIdMW(objectRepository),
-    responseMW(objectRepository)
-  );
-
-  /**
-   * Get metadata by ID
-   */
-  app.get('/getMetadataById/:imageId',
-    authMW(objectRepository),
-    getImagesMW(objectRepository),
-    getMetadataByIdMW(objectRepository),
     responseMW(objectRepository)
   );
 
