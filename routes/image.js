@@ -33,16 +33,6 @@ module.exports = app => {
   );
 
   /**
-   * Get all images for a category
-   */
-  app.get('/getImagesByCategory/:categoryName',
-    authMW(objectRepository),
-    getImagesMW(objectRepository),
-    getImagesByCategoryMW(objectRepository),
-    responseMW(objectRepository)
-  );
-
-  /**
    * Get all images
    */
   app.get('/getImagesByCategory',
