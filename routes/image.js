@@ -45,7 +45,7 @@ module.exports = app => {
   /**
    * Upload one image
    */
-  app.post('/uploadSingle',
+  app.post('/upload',
     authMW(objectRepository),
     upload.array('image'),
     updateImageMW(objectRepository),

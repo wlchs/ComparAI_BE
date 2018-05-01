@@ -15,7 +15,7 @@ module.exports = objectRepository => {
     res.tpl = {};
     console.log('Token');
     let userId = req.body.userId;
-    let password_hash = req.body.password_hash;
+    let password_hash = req.body.password;
 
     if (!userId || ! password_hash) {
       return next('No userId or password!');

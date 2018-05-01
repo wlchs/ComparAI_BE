@@ -14,7 +14,7 @@ module.exports = objectRepository => {
     res.tpl = {};
     console.log('Register');
     let userId = req.body.userId;
-    let password_hash = req.body.password_hash;
+    let password_hash = req.body.password;
     let code = req.body.code;
 
     if (!userId || ! password_hash) {
@@ -47,7 +47,7 @@ module.exports = objectRepository => {
         }
 
         res.tpl.response = {
-          message: "User succesfully created!",
+          message: "User successfully created!",
           name: result.name
         }
 
