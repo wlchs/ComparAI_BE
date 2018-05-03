@@ -9,6 +9,7 @@ let getImagesMW = require('../middleware/image/getImages');
 let getImageByIdMW = require('../middleware/image/getImageById');
 let getImagesByCategoryMW = require('../middleware/image/getImagesByCategory');
 let updateImageMW = require('../middleware/image/updateImage');
+let updateImageMWv2 = require('../middleware/image/updateImageV2');
 let imageClassificationMW = require('../middleware/image/classification');
 let deleteImagesMW = require('../middleware/image/deleteMultipleImages');
 let evaluateMW = require('../middleware/image/evaluateConnections');
@@ -50,6 +51,16 @@ module.exports = app => {
     upload.array('image'),
     updateImageMW(objectRepository),
     imageClassificationMW(objectRepository),
+    responseMW(objectRepository)
+  );
+
+  /**
+   * Update one image
+   */
+  app.put('/update/:imageId',
+    authMW(objectRepository),
+    getImagesMW(objectRepository),
+    updateImageMWv2(objectRepository),
     responseMW(objectRepository)
   );
 
