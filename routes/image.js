@@ -59,7 +59,6 @@ module.exports = app => {
    */
   app.put('/update/:imageId',
     authMW(objectRepository),
-    getImagesMW(objectRepository),
     updateImageMWv2(objectRepository),
     responseMW(objectRepository)
   );
