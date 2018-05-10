@@ -12,21 +12,14 @@ module.exports = objectRepository => {
     let images = [];
 
     res.tpl.images.forEach(image => {
-      image.categories.forEach(classificationService => {
-        if (!req.params.categoryName || classificationService.categories.includes(req.params.categoryName)) {
-          if (!ids.includes(image._id)) {
-            ids.push(image._id);
-            images.push({
-              id: image._id,
-              name: image.name,
-              date: image.date,
-              thumbnail: image.thumbnail,
-              contentType: image.contentType,
-              categories: image.categories
-            });
-          }
-        }
-      })
+      images.push({
+        id: image._id,
+        name: image.name,
+        date: image.date,
+        thumbnail: image.thumbnail,
+        contentType: image.contentType,
+        categories: image.categories
+      });
     });
 
     res.tpl.response = {
