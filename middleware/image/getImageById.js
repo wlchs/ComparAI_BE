@@ -5,26 +5,21 @@ var requireOption = require('../common').requireOption;
  */
 module.exports = objectRepository => {
 
-  var imageModel = requireOption(objectRepository, 'imageModel');
-
   return (req, res, next) => {
-    res.tpl = {...res.tpl};
+    const resultSet = res.tpl.images.filter(image => image._id == req.params.imageId);
 
-    imageModel.findOne({_id: req.params.imageId, _user: res.tpl.user_db_id}, (err, result) => {
-      if (err) {
-        return next(err);
-      }
+    if (resultSet.length !== 1) {
+      return next('Image not found!')
+    }
 
-      if (!result) {
-        return next('Image not found!')
-      }
+    const result = resultSet[0];
 
-      res.tpl.response = {
-        data: result.data,
-        contentType: result.contentType
-      };
-      return next();
-    });
+    res.tpl.response = {
+      data: result.data,
+      contentType: result.contentType
+    };
+
+    return next();
   };
 
 };
