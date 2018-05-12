@@ -35,6 +35,10 @@ module.exports = objectRepository => {
 
           res.tpl.response.images.push({
             id: image._id,
+            name: image.name,
+            date: image.date,
+            thumbnail: image.thumbnail,
+            contentType: image.contentType,
             categories: image.categories
           });
 
