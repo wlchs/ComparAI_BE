@@ -45,7 +45,7 @@ module.exports = app => {
   );
 
   /**
-   * Upload one image
+   * Upload images
    */
   app.post('/upload',
     authMW(objectRepository),

@@ -19,7 +19,7 @@ module.exports = objectRepository => {
   });
 
   return (req, res, next) => {
-    const processImage = (file, user) => new Promise((resolve, reject) => {
+    const processImage = file => new Promise((resolve, reject) => {
       const name = file.originalname;
       const data = file.buffer;
       const contentType = file.mimetype;
@@ -29,7 +29,7 @@ module.exports = objectRepository => {
       }
 
       let image = new imageModel();
-      image._user = user;
+      image._user = res.tpl.user_db_id;
       image.name = name;
       image.data = data;
       image.contentType = contentType;
@@ -42,16 +42,6 @@ module.exports = objectRepository => {
               return reject(err);
             }
 
-            if (res.tpl.response && res.tpl.response.id) {
-              res.tpl.response = {
-                id: [...res.tpl.response.id, result._id]
-              };
-            } else {
-              res.tpl.response = {
-                id: [result._id]
-              };
-            }
-
             return resolve({id: result._id, data: result.data});
           });
         })
@@ -62,7 +52,7 @@ module.exports = objectRepository => {
     let promises = [];
 
     req.files.forEach(file => {
-      promises.push(processImage(file, res.tpl.user_db_id));
+      promises.push(processImage(file));
     });
 
     Promise.all(promises).then(results => {

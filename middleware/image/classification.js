@@ -13,6 +13,10 @@ module.exports = objectRepository => {
   var imageModel = requireOption(objectRepository, 'imageModel');
 
   return (req, res, next) => {
+    res.tpl.response = {
+      images: []
+    }
+
     const updateCategories = classifiedImage => new Promise((resolve, reject) => {
       imageModel.findOne({_id: classifiedImage.id}, (err, image) => {
         if (err) {
@@ -28,6 +32,11 @@ module.exports = objectRepository => {
           if (err) {
             return reject(err);
           };
+
+          res.tpl.response.images.push({
+            id: image._id,
+            categories: image.categories
+          });
 
           return resolve();
         });
