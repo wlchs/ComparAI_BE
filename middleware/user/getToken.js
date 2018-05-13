@@ -28,7 +28,7 @@ module.exports = objectRepository => {
 
       if (!result) {
         res.status(401);
-        return res.send('Bad username or password!');
+        return next('Bad username or password!');
       }
 
       bcrypt.compare(password_hash, result.password_hash).then(valid => {
