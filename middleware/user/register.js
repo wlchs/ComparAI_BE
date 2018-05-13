@@ -18,13 +18,11 @@ module.exports = objectRepository => {
     let code = req.body.code;
 
     if (!userId || ! password_hash) {
-      res.status(400);
-      return res.send('No userId or password!');
+      return next('No userId or password!');
     }
 
     if (code !== 'Szakdolgozat2018') {
-      res.status(400);
-      return res.send('Invalid code!');
+      return next('Invalid code!');
     }
 
     userModel.findOne({name: userId}, (err, result) => {
@@ -33,8 +31,7 @@ module.exports = objectRepository => {
       }
 
       if (result) {
-        res.status(400);
-        return res.send('Username taken!');
+        return next('Username taken!');
       }
 
       let user = new userModel();

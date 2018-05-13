@@ -27,7 +27,6 @@ module.exports = objectRepository => {
       }
 
       if (!result) {
-        res.status(401);
         return next('Bad username or password!');
       }
 
@@ -50,8 +49,7 @@ module.exports = objectRepository => {
           return next();
         }
 
-        res.status(401);
-        return res.send('Bad username or password!');
+        return next('Bad username or password!');
       });
     });
   };
