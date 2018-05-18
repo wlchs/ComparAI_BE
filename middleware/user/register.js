@@ -21,7 +21,7 @@ module.exports = objectRepository => {
       return next('No userId or password!');
     }
 
-    if (code !== 'Szakdolgozat2018') {
+    if (code !== ENVIRONMENTS.REGISTRATION_CODE) {
       return next('Invalid code!');
     }
 
